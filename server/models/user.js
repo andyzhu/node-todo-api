@@ -1,6 +1,6 @@
 var _mongoose = require('mongoose');
 
-var User = _mongoose.model('User', {
+var _User = _mongoose.model('User', {
     email: {
         type: String,
         required: true,
@@ -9,4 +9,4 @@ var User = _mongoose.model('User', {
     }
 });
 
-module.exports = {User};
+module.exports = {_User};

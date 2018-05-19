@@ -3,7 +3,7 @@ var _bodyparser = require('body-parser');
 
 var {_mongoose} = require('./db/mongoose');
 var {_Todo} = require('./models/todo.js');
-var {User} = require('./models/user.js');
+var {_User} = require('./models/user.js');
 
 var _app = _express();
 
@@ -19,6 +19,17 @@ _app.post('/todos', (req, res) => {
     }, (e) => {
         res.status(400).send(e);
     });
+});
+
+_app.get('/todos', (req,res) => {
+    _Todo.find().then((todos) => {
+        res.send({
+            todos
+        });
+
+    }, (e) => {
+        res.status(400).send(e);
+    })
 });
 
 _app.listen(3000, () => {

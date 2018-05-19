@@ -1,12 +1,26 @@
-var {_mongoose} = require('./db/mongoose.js');
+var _express = require('express');
+var _bodyparser = require('body-parser');
 
+var {_mongoose} = require('./db/mongoose');
+var {Todo} = require('./models/todo.js');
+var {User} = require('./models/user.js');
 
-var newuser = new User({
-    email: 'an@bc.comh'
+var app = _express();
+
+app.use(_bodyparser.json());
+
+app.post('/todos', (req, res) => {
+    var todo = new Todo ({
+        text: req.body.text
+    });
+
+    todo.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
 });
 
-newuser.save().then( (record) => {
-    console.log ('Insert successfully', record)
-}, (e) => {
-    console.log ('error: ', e)
+app.listen(3000, () => {
+    console.log ('started on port 3000');
 });

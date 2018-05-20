@@ -38,17 +38,23 @@ _app.get('/todos/:id', (req, res) =>{
     //res.send(_id);
 
     if(!(ObjectID.isValid(_id))) {
-        return res.status(404).send('Invbalid ID');
+        console.log(res.body);
+        res.status(404).send('Invalid ID');
+        
     }
     
     _Todo.findById(_id).then((todo) => {
         if (!todo) {
-           return res.status(404).send();
+            
+            res.status(404).send({
+                failedReason: 'Not Exist'
+            });
+            console.log(res);
         }
 
         res.status(200).send({todo});
     }, (e) => {
-        return res.status(404).send({});
+        res.status(404).send({});
     }).catch((e) => {
         res.status(400).send();
     });

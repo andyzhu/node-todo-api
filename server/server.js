@@ -39,7 +39,7 @@ _app.get('/todos/:id', (req, res) =>{
     //res.send(_id);
 
     if(!(ObjectID.isValid(_id))) {
-        console.log(res.body);
+        // console.log(res.body);
         res.status(404).send('Invalid ID');
         
     }
@@ -50,7 +50,7 @@ _app.get('/todos/:id', (req, res) =>{
             res.status(404).send({
                 failedReason: 'Not Exist'
             });
-            console.log(res);
+            // console.log(res);
         }
 
         res.status(200).send({todo});
@@ -67,7 +67,7 @@ _app.delete('/todos/:id', (req, res) =>{
     //res.send(_id);
 
     if(!(ObjectID.isValid(_id))) {
-        console.log(res.body);
+        // console.log(res.body);
         res.status(404).send('Invalid ID');
         
     }
@@ -78,7 +78,7 @@ _app.delete('/todos/:id', (req, res) =>{
             res.status(404).send({
                 failedReason: 'Not Exist'
             });
-            console.log(res);
+            // console.log(res);
         }
 
         res.status(200).send({todo});

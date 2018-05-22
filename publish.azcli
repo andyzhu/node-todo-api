@@ -1,0 +1,23 @@
+az group create --name vscode-node-web-server --location eastus
+
+az group create --name vscode-node-web-server --location eastus
+
+az login
+
+az configure --defaults group=vscode-node-web-server location=eastus
+
+az appservice plan create --name vscode-node-web-server --sku F1
+
+az webapp create --name az-node-svr --plan vscode-node-web-server --runtime "node|6.9"
+
+az webapp browse --name az-node-svr
+
+az webapp deployment user set --user-name andy.zhu --password Citrix@20102010
+
+az webapp deployment source config-local-git --name az-node-svr
+
+git remote add azure-vscode https://andy.zhu@az-node-svr.scm.azurewebsites.net/az-node-svr.git
+
+git push azure-vscode master
+
+az webapp log tail --name az-node-svr

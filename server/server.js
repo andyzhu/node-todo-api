@@ -1,3 +1,4 @@
+const _ = require('lodash');
 var _express = require('express');
 var _bodyparser = require('body-parser');
 var {ObjectID} = require('mongodb');
@@ -86,6 +87,41 @@ _app.delete('/todos/:id', (req, res) =>{
         res.status(404).send({});
     }).catch((e) => {
         res.status(400).send();
+    });
+
+});
+
+_app.patch('/todos/:id', (req,res) => {
+    var _id = req.params.id;
+    var _body = _.pick(req.body,['text','completed']);
+    
+    
+
+    if(!(ObjectID.isValid(_id))) {
+        // console.log(res.body);
+       return res.status(404).send('Invalid ID');
+        
+    }
+    
+    if(_.isBoolean(_body.completed) && _body.completed) {
+        _body.completedAt = new Date().getTime();
+    } else {
+        _body.completed = false;
+        _body.completedAt = null;
+    }
+
+    _Todo.findByIdAndUpdate(_id, {$set: _body}, {new: true}).then((todo) => {
+        if (!todo) {
+            
+            return res.status(404).send({
+                failedReason: 'Not Exist'
+            });
+            // console.log(res);
+        }
+
+        res.status(200).send({todo});
+    }).catch((e) => {
+        return res.status(404).send();
     });
 
 });

@@ -1,14 +1,18 @@
-az group create --name vscode-node-web-server --location eastus
+az appservice list-location --sku FREE
+az group create --name vscode-node-todo-api --location eastus
 
-az group create --name vscode-node-web-server --location eastus
+az cosmosdb create --name az-nodo-todos --resource-group vscode-node-todo-api --kind MongoDB
 
 az login
 
-az configure --defaults group=vscode-node-web-server location=eastus
+az cosmosdb list-keys --name az-nodo-todos --resource-group vscode-node-todo-api 
 
-az appservice plan create --name vscode-node-web-server --sku F1
 
-az webapp create --name az-node-svr --plan vscode-node-web-server --runtime "node|6.9"
+az configure --defaults group=vscode-node-todo-api location=eastus
+
+az appservice plan create --name vscode-node-todo-api --sku F1
+
+az webapp create --name az-node-svr --plan vscode-node-todo-api --runtime "node|6.9"
 
 az webapp browse --name az-node-svr
 

@@ -8,6 +8,7 @@ var {ObjectID} = require('mongodb');
 var {_mongoose} = require('./db/mongoose');
 var {_Todo} = require('./models/todo.js');
 var {_User} = require('./models/user.js');
+var {_authenticate} = require('./middleware/authenticate');
 
 var _app = _express();
 const port = process.env.PORT;
@@ -137,7 +138,7 @@ _app.post('/users', (req, res) => {
     var user = new _User (_userbody);
 
     user.save().then((user) => {
-         user.generateAuthToken();
+         return user.generateAuthToken();
         // res.send(user);
     }, (e) => {
         res.status(400).send(e);
@@ -149,6 +150,11 @@ _app.post('/users', (req, res) => {
 });
 
 
+
+_app.get('/users/me', _authenticate, (req,res) => {
+    res.send(req.user);
+    
+})
 
 _app.listen(port, () => {
     console.log (`started on port ${port}`);
